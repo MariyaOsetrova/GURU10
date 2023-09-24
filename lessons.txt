@@ -1,0 +1,74 @@
+https://github.com/qa-guru/knowledge-base/wiki/Jenkins.-%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%B5%D0%BC-%D0%BF%D0%B5%D1%80%D0%B2%D1%83%D1%8E-%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D1%83
+
+Jenkins — система для обеспечения процесса непрерывной интеграции (CI) программного обеспечения.
+Jenkins написан на Java и у инструмента открытый исходный код.
+
+Как создать задачу в Jenkins
+Сперва необходимо пройти регистрацию в сервисе облачного тестирования. У Jenkins открытый исходный код, поэтому регистрация бесплатная. Для регистрации необходимо перейти по ссылке, нажать на соответствующую кнопку и пройти пошаговый процесс.
+
+После регистрации или входа мы оказываемся на странице дашборда.
+Далее необходимо нажать на кнопку «Создать Item».
+
+
+
+На открывшейся странице указываем имя задачи и выбираем поле «Создать задачу со свободной конфигурацией».
+
+
+
+В блоке управления исходным кодом выбираем Git, вставляем ссылку на репозиторий с кодом тестов и обязательно проверяем правильность написания ветки (main/master).
+
+
+
+В параметрах сборки выбираем Invoke Gradle script, кликаем на правильную версию Gradle,указываем имя задачи и сохраняем.
+
+
+
+Собрать и запустить тесты можно нажатием кнопки «Собрать сейчас».
+
+
+
+Подключаем Allure Report
+К Jenkins можно подключить отчеты Allure, но сначала надо убедиться, что система подключена в самом проекте. Подробную инструкцию можно найти по ссылке.
+
+Далее переходим в настройки задачи в Jenkins и в блоке «Послесборочные операции» выбираем Allure Report.
+
+
+
+В файле конфигурации браузера надо указать, чтобы тесты запускались не в локальном браузере, а в Selenoid.
+
+Вставляем следующий фрагмент кода:
+
+Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
+Добавляем видео в отчет
+В файле конфигурации добавляем код:
+
+DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability("enableVNC", true);
+        capabilities.setCapability("enableVideo", true);
+        Configuration.browserCapabilities = capabilities;
+Далее в классе с Attachments добавляем следующее:
+
+@Attachment(value = "Video", type = "text/html", fileExtension = ".html")
+    public static String addVideo() {
+        return "<html><body><video width='100%' height='100%' controls autoplay><source src='"
+                + getVideoUrl(getSessionId())
+                + "' type='video/mp4'></video></body></html>";
+    }
+
+    public static URL getVideoUrl(String sessionId) {
+        String videoUrl = "https://selenoid.autotests.cloud/video/" + sessionId + ".mp4";
+
+        try {
+            return new URL(videoUrl);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getSessionId(){
+        return ((RemoteWebDriver) getWebDriver()).getSessionId().toString();
+    }
+И в конце теста вызываем метод:
+
+Attach.addVideo();
