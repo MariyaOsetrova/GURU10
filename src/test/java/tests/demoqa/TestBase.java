@@ -1,4 +1,4 @@
-package tests;
+package tests.demoqa;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
@@ -17,9 +17,13 @@ public class TestBase {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("enableVNC", true);
         capabilities.setCapability("enableVideo", true);
+        capabilities.setCapability("headless", true);
 
         Configuration.browserCapabilities = capabilities;
-        Configuration.startMaximized = true;
+       // Configuration.startMaximized = true;
+        Configuration.headless=true;
+
+       // chrome_options.add_argument("--headless")
         Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub/";
     }
 

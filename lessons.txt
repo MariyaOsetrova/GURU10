@@ -1,3 +1,8 @@
+Тренировка: https://jenkins.autotests.cloud/job/test2023/
+
+Чтобы посомтреть file:///home/jenkins/workspace/test2023/build/reports/tests/test/index.html, надо написать вначале:
+https://jenkins.autotests.cloud/job/test2023/ws/build/allure-results/ests/test/index.html
+
 https://github.com/qa-guru/knowledge-base/wiki/Jenkins.-%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%B5%D0%BC-%D0%BF%D0%B5%D1%80%D0%B2%D1%83%D1%8E-%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D1%83
 
 Jenkins — система для обеспечения процесса непрерывной интеграции (CI) программного обеспечения.
