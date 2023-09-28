@@ -28,6 +28,8 @@ public class TestBase {
         Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub/";
     }
 
+
+    // добавление видео и скриншоты
     @AfterEach
     public void tearDown() {
         Attach.screenshotAs("Last screenshot");
