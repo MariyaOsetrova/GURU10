@@ -12,6 +12,7 @@ import helpers.Attach;
 public class TestBase {
     @BeforeAll
     static void setup() {
+        // настройки для селенойда
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
